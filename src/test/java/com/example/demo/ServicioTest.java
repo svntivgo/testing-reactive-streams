@@ -62,4 +62,15 @@ class ServicioTest {
                         throwable.getMessage().equals("Mensaje de Error")
                 ).verify();
     }
+
+    @Test
+    void testPostEjecucion() {
+        Flux<Integer> source = servicio.postEjecucion();
+        StepVerifier.create(source)
+                .expectNext(2)
+                .expectComplete()
+                .verifyThenAssertThat()
+                .hasDropped(4)
+                .tookLessThan(Duration.ofMillis(1050));
+    }
 }
